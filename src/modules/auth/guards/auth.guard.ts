@@ -1,7 +1,8 @@
-import { HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { JsonWebTokenError } from 'jsonwebtoken'
 
+@Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
     constructor() {
         super()

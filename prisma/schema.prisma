@@ -91,3 +91,8 @@ model LoginHistory {
 
   @@map("login_histories")
 }
+
+model Test {
+  id   String @id @default(uuid())
+  data String
+}

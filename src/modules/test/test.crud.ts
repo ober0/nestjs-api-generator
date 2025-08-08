@@ -7,6 +7,7 @@ import { Prisma } from '@prisma/client'
 import { OrmEnum } from '../api-generator/enums/orm.enum'
 import { PrismaModule } from '../prisma/prisma.module'
 import { PrismaService } from '../prisma/prisma.service'
+import { TestResponseDto } from './dto/response.dto'
 
 @CrudGenerator({
     path: 'test',
@@ -19,6 +20,7 @@ import { PrismaService } from '../prisma/prisma.service'
         getAll: {
             swagger: {
                 summary: 'Get all test',
+                responseType: TestResponseDto,
                 statusCode: 200,
                 apiSecurity: 'bearer'
             },

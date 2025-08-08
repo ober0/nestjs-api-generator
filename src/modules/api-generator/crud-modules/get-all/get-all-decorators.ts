@@ -1,4 +1,4 @@
-import { CanActivate, Type, UseGuards } from '@nestjs/common'
+import { UseGuards } from '@nestjs/common'
 import { ApiResponse, ApiOperation, ApiSecurity } from '@nestjs/swagger'
 import { GeneratorMainDto } from '../../dto/generator/main.dto'
 import { GeneratorGetAllMethodDto } from '../../dto/generator/get-all.dto'

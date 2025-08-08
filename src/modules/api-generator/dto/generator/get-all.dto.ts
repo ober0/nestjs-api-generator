@@ -1,9 +1,3 @@
-import { SwaggerMethodsDto } from '../swagger/main.dto'
-import { CanActivate, Type } from '@nestjs/common'
+import { GeneratorCommonMethodDto } from './common-methods.dto'
 
-export class GeneratorGetAllMethodDto {
-    swagger?: SwaggerMethodsDto
-    guards?: Type<CanActivate>[]
-    customDecorators?: AllowedDecorator[]
-    path?: string
-}
+export class GeneratorGetAllMethodDto extends GeneratorCommonMethodDto {}

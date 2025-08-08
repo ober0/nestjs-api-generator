@@ -1,5 +1,12 @@
 import { GeneratorGetAllMethodDto } from './get-all.dto'
 import { SwaggerClassDto } from '../swagger/main.dto'
+import { OrmEnum } from '../../enums/orm.enum'
+
+export class DbModelsDto {
+    model: string
+    dbService: any
+    orm: OrmEnum
+}
 
 export class GeneratorMainDto {
     methods: {
@@ -7,6 +14,6 @@ export class GeneratorMainDto {
     }
     swagger?: SwaggerClassDto
     path: string
-    prismaModel: any
+    db: DbModelsDto
     customDecorators?: AllowedDecorator[]
 }

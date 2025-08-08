@@ -6,4 +6,5 @@ export class GeneratorMainDto {
     swagger?: SwaggerClassDto
     path: string
     prismaModel: any
+    customDecorators?: AllowedDecorator[]
 }

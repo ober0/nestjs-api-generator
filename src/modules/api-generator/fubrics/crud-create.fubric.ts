@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common'
 import { GeneratorMainDto } from '../dto/generator/main.dto'
 import { createCrudGetService } from '../crud-modules/get/get-service'
 import { createCrudGetController } from '../crud-modules/get/get-controller'
-import { applyDecoratorsToMethod } from '../crud-modules/get/get-decorators'
+import { applyGetDecorators } from '../crud-modules/get/get-decorators'
+import { applyDecoratorsToController } from '../crud-modules/global/create-decorators'
 
 export function createCrudGet(data: GeneratorMainDto) {
     const providers = []
@@ -20,8 +21,12 @@ export function createCrudGet(data: GeneratorMainDto) {
         const GetController = createCrudGetController(data, serviceToken)
         controllers.push(GetController)
 
-        applyDecoratorsToMethod(GetController, 'get', data)
+        applyGetDecorators(GetController, 'get', data)
     }
+
+    controllers.forEach((controller) => {
+        applyDecoratorsToController(controller, data)
+    })
 
     @Module({
         controllers,

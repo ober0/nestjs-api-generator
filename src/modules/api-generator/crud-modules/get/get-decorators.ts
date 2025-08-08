@@ -2,17 +2,9 @@ import { UseGuards } from '@nestjs/common'
 import { ApiTags, ApiResponse, ApiSecurity, ApiOperation } from '@nestjs/swagger'
 import { GeneratorMainDto } from '../../dto/generator/main.dto'
 
-export function applyDecoratorsToMethod(targetClass: any, methodName: string, options: GeneratorMainDto) {
-    if (options.swagger?.apiTag) {
-        ApiTags(options.swagger?.apiTag)(targetClass)
-    }
-
+export function applyGetDecorators(targetClass: any, methodName: string, options: GeneratorMainDto) {
     if (options.get?.guards && options.get?.guards?.length) {
         Reflect.decorate([UseGuards(...options.get?.guards)], targetClass.prototype, methodName, Object.getOwnPropertyDescriptor(targetClass.prototype, methodName))
-    }
-
-    if (options.get?.swagger?.apiSecurity) {
-        ApiSecurity(options.get?.swagger?.apiSecurity)(targetClass)
     }
 
     if (options.customDecorators && options.customDecorators.length) {

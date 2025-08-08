@@ -1,8 +1,10 @@
-import { GeneratorGetMethodDto } from './get.dto'
+import { GeneratorGetAllMethodDto } from './get-all.dto'
 import { SwaggerClassDto } from '../swagger/main.dto'
 
 export class GeneratorMainDto {
-    get?: GeneratorGetMethodDto
+    methods: {
+        getAll?: GeneratorGetAllMethodDto
+    }
     swagger?: SwaggerClassDto
     path: string
     prismaModel: any

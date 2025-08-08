@@ -1,27 +1,27 @@
 import { Module } from '@nestjs/common'
 import { GeneratorMainDto } from '../dto/generator/main.dto'
-import { createCrudGetService } from '../crud-modules/get/get-service'
-import { createCrudGetController } from '../crud-modules/get/get-controller'
-import { applyGetDecorators } from '../crud-modules/get/get-decorators'
+import { createCrudGetAllService } from '../crud-modules/get-all/get-all-service'
+import { createCrudGetAllController } from '../crud-modules/get-all/get-all-controller'
+import { applyGetDecorators } from '../crud-modules/get-all/get-all-decorators'
 import { applyDecoratorsToController } from '../crud-modules/global/create-decorators'
 
-export function createCrudGet(data: GeneratorMainDto) {
+export function createCrud(data: GeneratorMainDto) {
     const providers = []
     const controllers = []
 
-    if (data.get) {
-        const serviceToken = `CrudGetService_${data.path}`
+    if (data.methods.getAll) {
+        const serviceToken = `CrudGetAllService_${data.path}`
 
-        const GetService = createCrudGetService(data)
+        const GetAllService = createCrudGetAllService(data)
         providers.push({
             provide: serviceToken,
-            useClass: GetService
+            useClass: GetAllService
         })
 
-        const GetController = createCrudGetController(data, serviceToken)
-        controllers.push(GetController)
+        const GetAllController = createCrudGetAllController(data, serviceToken)
+        controllers.push(GetAllController)
 
-        applyGetDecorators(GetController, 'get', data)
+        applyGetDecorators(GetAllController, 'getAll', data)
     }
 
     controllers.forEach((controller) => {

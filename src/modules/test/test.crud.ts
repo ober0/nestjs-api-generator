@@ -8,14 +8,16 @@ import { PermissionEnum } from '../../common/constants/permission.enum'
 @CrudGenerator({
     path: 'test',
     prismaModel: 'Test',
-    get: {
-        swagger: {
-            summary: 'Get all test',
-            statusCode: 200,
-            apiSecurity: 'bearer'
-        },
-        guards: [JwtAuthGuard, PermissionGuard],
-        customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
+    methods: {
+        getAll: {
+            swagger: {
+                summary: 'Get all test',
+                statusCode: 200,
+                apiSecurity: 'bearer'
+            },
+            guards: [JwtAuthGuard, PermissionGuard],
+            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
+        }
     },
     swagger: {
         apiTag: 'Test'

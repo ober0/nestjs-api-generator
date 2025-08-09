@@ -1,12 +1,23 @@
-import { HttpStatus } from '@nestjs/common'
+import { HttpStatus, Type } from '@nestjs/common'
 
 export class SwaggerClassDto {
+    /**
+     * Таг в сваггере
+     */
     apiTag?: string
 }
 
 export class SwaggerMethodsDto {
+    /**
+     * Описание ручки
+     */
     summary?: string
-    responseType?: any
+    /**
+     * Код ответа
+     */
     statusCode?: HttpStatus
+    /**
+     * bearer для стандартной JWT защиты
+     */
     apiSecurity?: string
 }

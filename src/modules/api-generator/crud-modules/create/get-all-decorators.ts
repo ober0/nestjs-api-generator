@@ -21,11 +21,11 @@ export function applyCreateDecorators(targetClass: any, methodName: string, opti
         decorators.push(ApiSecurity(method.swagger.apiSecurity))
     }
 
-    if (method.swagger?.responseType || method.swagger?.statusCode) {
+    if (method?.responseType || method.swagger?.statusCode) {
         decorators.push(
             ApiResponse({
-                status: method.swagger.statusCode ?? 200,
-                type: method.swagger.responseType ?? undefined
+                status: method.swagger?.statusCode ?? 200,
+                type: method?.responseType ?? undefined
             })
         )
     }

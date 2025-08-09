@@ -21,7 +21,6 @@ import { TestCreateDto } from './dto/create.dto'
         getAll: {
             swagger: {
                 summary: 'Get all test',
-                responseType: [TestResponseDto],
                 statusCode: 200,
                 apiSecurity: 'bearer'
             },
@@ -31,7 +30,6 @@ import { TestCreateDto } from './dto/create.dto'
         create: {
             swagger: {
                 summary: 'Create test',
-                responseType: TestResponseDto,
                 statusCode: 201,
                 apiSecurity: 'bearer'
             },
@@ -42,6 +40,9 @@ import { TestCreateDto } from './dto/create.dto'
     },
     swagger: {
         apiTag: 'Test'
+    },
+    baseDto: {
+        dto: TestResponseDto
     }
 })
 export class TestCrud {}

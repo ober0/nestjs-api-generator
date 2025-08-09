@@ -8,6 +8,12 @@ import { generateDtoTypes, generateResponseTypes } from './functions/generate-ty
 export function loadCrudModule(target: Type<any>): DynamicModule {
     let options: GeneratorMainDto = Reflect.getMetadata(CrudGeneratorMetadataEnum.Options, target) as GeneratorMainDto
 
+    try {
+        require.resolve('@nestjs/swagger')
+    } catch {
+        throw new Error('В проекте не установлен @nestjs/swagger')
+    }
+
     Object.keys(options.methods).forEach((method: MethodsEnum) => {
         if (!Object.keys(options.methods[method]).includes('dto')) {
             const dto: false | Type<any> = generateDtoTypes(options, method, target)

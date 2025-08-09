@@ -8,8 +8,6 @@ export function createCrudCreateController(data: GeneratorMainDto, serviceToken:
         constructor(@Inject(serviceToken) public readonly service: any) {}
 
         @Post(data.methods?.create?.path ?? '')
-        @HttpCode(data.methods.create?.swagger?.statusCode ?? 200)
-        @ApiBody({ type: data.methods.create.dto })
         async create(@Body() dto: InstanceType<typeof data.methods.create.dto>) {
             console.log(data.methods.create.dto)
             return this.service.create(dto)

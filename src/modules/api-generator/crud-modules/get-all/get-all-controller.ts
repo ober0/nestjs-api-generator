@@ -7,7 +7,6 @@ export function createCrudGetAllController(data: GeneratorMainDto, serviceToken:
         constructor(@Inject(serviceToken) public readonly service: any) {}
 
         @Get(data.methods?.getAll?.path ?? '')
-        @HttpCode(data.methods.getAll?.swagger?.statusCode ?? 200)
         async getAll() {
             return this.service.getAll()
         }

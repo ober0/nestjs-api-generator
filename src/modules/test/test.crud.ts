@@ -20,7 +20,6 @@ import { TestBaseDto } from './dto/base.dto'
         getAll: {
             swagger: {
                 summary: 'Get all test',
-                statusCode: 200,
                 apiSecurity: 'bearer'
             },
             guards: [JwtAuthGuard, PermissionGuard],
@@ -29,7 +28,6 @@ import { TestBaseDto } from './dto/base.dto'
         create: {
             swagger: {
                 summary: 'Create test',
-                statusCode: 201,
                 apiSecurity: 'bearer'
             },
             guards: [JwtAuthGuard, PermissionGuard],

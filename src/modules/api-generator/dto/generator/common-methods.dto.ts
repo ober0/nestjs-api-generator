@@ -1,5 +1,5 @@
 import { SwaggerMethodsDto } from '../swagger/main.dto'
-import { CanActivate, Type } from '@nestjs/common'
+import { CanActivate, HttpStatus, Type } from '@nestjs/common'
 
 export class GeneratorCommonMethodDto {
     /**
@@ -22,4 +22,8 @@ export class GeneratorCommonMethodDto {
      * Ручная установка типа ответа
      */
     responseType?: Type<any>
+    /**
+     * Код ответа (не указывать для стандартного кода)
+     */
+    responseCode?: HttpStatus | number
 }

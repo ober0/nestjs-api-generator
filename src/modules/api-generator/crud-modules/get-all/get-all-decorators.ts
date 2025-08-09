@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common'
+import { HttpCode, UseGuards } from '@nestjs/common'
 import { ApiResponse, ApiOperation, ApiSecurity } from '@nestjs/swagger'
 import { GeneratorMainDto } from '../../dto/generator/main.dto'
 import { GeneratorGetAllMethodDto } from '../../dto/generator/get-all.dto'
@@ -21,15 +21,6 @@ export function applyGetAllDecorators(targetClass: any, methodName: string, opti
         decorators.push(ApiSecurity(method.swagger.apiSecurity))
     }
 
-    if (method?.responseType || method.swagger?.statusCode) {
-        decorators.push(
-            ApiResponse({
-                status: method.swagger?.statusCode ?? 200,
-                type: method?.responseType ?? undefined
-            })
-        )
-    }
-
     if (method.swagger?.summary) {
         decorators.push(
             ApiOperation({
@@ -48,6 +39,15 @@ export function applyGetAllDecorators(targetClass: any, methodName: string, opti
             }
         }
     }
+
+    decorators.push(
+        ApiResponse({
+            status: method?.responseCode ?? 200,
+            type: method?.responseType ?? undefined
+        })
+    )
+
+    decorators.push(HttpCode(method.responseCode ?? 200))
 
     Reflect.decorate(decorators.flat(), targetClass.prototype, methodName, descriptor)
 }

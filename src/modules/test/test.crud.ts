@@ -5,27 +5,39 @@ import { HasPermissions } from '../role-permission/decorators/permissions.decora
 import { PermissionEnum } from '../../common/constants/permission.enum'
 import { Prisma } from '@prisma/client'
 import { OrmEnum } from '../api-generator/enums/orm.enum'
-import { PrismaModule } from '../prisma/prisma.module'
 import { PrismaService } from '../prisma/prisma.service'
 import { TestResponseDto } from './dto/response.dto'
+import { TestCreateDto } from './dto/create.dto'
 
 @CrudGenerator({
     path: 'test',
     db: {
         dbService: PrismaService,
         model: Prisma.ModelName.Test,
-        orm: OrmEnum.Prisma
+        orm: OrmEnum.Prisma,
+        pk: 'id'
     },
     methods: {
         getAll: {
             swagger: {
                 summary: 'Get all test',
-                responseType: TestResponseDto,
+                responseType: [TestResponseDto],
                 statusCode: 200,
                 apiSecurity: 'bearer'
             },
             guards: [JwtAuthGuard, PermissionGuard],
             customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
+        },
+        create: {
+            swagger: {
+                summary: 'Create test',
+                responseType: TestResponseDto,
+                statusCode: 201,
+                apiSecurity: 'bearer'
+            },
+            guards: [JwtAuthGuard, PermissionGuard],
+            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)],
+            dto: TestCreateDto
         }
     },
     swagger: {

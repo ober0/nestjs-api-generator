@@ -1,10 +1,10 @@
 import { UseGuards } from '@nestjs/common'
 import { ApiResponse, ApiOperation, ApiSecurity } from '@nestjs/swagger'
 import { GeneratorMainDto } from '../../dto/generator/main.dto'
-import { GeneratorGetAllMethodDto } from '../../dto/generator/get-all.dto'
+import { GeneratorCreateMethodDto } from '../../dto/generator/create.dto'
 
-export function applyGetAllDecorators(targetClass: any, methodName: string, options: GeneratorMainDto) {
-    const method: GeneratorGetAllMethodDto = options.methods.getAll
+export function applyCreateDecorators(targetClass: any, methodName: string, options: GeneratorMainDto) {
+    const method: GeneratorCreateMethodDto = options.methods.create
     const descriptor = Object.getOwnPropertyDescriptor(targetClass.prototype, methodName)
 
     if (!descriptor) {

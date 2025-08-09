@@ -11,7 +11,7 @@ export function loadCrudModule(target: Type<any>): DynamicModule {
     Object.keys(options.methods).forEach((method: MethodsEnum) => {
         if (!options.methods[method]?.responseType) {
             if (!options.baseDto) throw new Error(`Не указан BaseDto для генерации типов в ${target.name} ( функция ${method} )`)
-            const dto: false | Type<any> = generateTypes(options.baseDto, method)
+            const dto: false | Type<any> = generateTypes(options, method)
             if (dto) {
                 ;(options.methods[method] as any).dto = dto
             }

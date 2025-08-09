@@ -1,3 +1,4 @@
 export enum CrudGeneratorMetadataEnum {
-    Options = 'crud-generator:options'
+    Options = 'crud-generator:options',
+    AutoFill = 'crud-generator:autofill'
 }

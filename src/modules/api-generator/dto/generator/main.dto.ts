@@ -2,6 +2,7 @@ import { GeneratorGetAllMethodDto } from './get-all.dto'
 import { SwaggerClassDto } from '../swagger/main.dto'
 import { OrmEnum } from '../../enums/orm.enum'
 import { GeneratorCreateMethodDto } from './create.dto'
+import { Type } from '@nestjs/common'
 
 export class DbModelsDto {
     /**
@@ -43,9 +44,9 @@ export class GeneratorMainDto {
      */
     db: DbModelsDto
     /**
-     * Используется для генерации типов, при желании в каждом сервисе можно переопределить тип
+     * Используется для генерации типов
      */
-    baseDto: GeneratorCreateMethodDto
+    baseDto?: Type<any>
     /**
      * Массив декораторов на контроллере (ТД MethodDecorator)
      */

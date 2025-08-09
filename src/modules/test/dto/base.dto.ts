@@ -1,9 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class TestResponseDto {
+export class TestBaseDto {
     @ApiProperty()
-    uuid: string
+    id: string
 
     @ApiProperty()
     data: string
+
+    @ApiProperty()
+    // @AutoFill()
+    createdAt: Date
 }

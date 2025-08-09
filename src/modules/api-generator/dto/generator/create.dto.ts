@@ -3,7 +3,7 @@ import { Type } from '@nestjs/common'
 
 export class GeneratorCreateMethodDto extends GeneratorCommonMethodDto {
     /**
-     * ручная установка дто ( выше автогенерации )
+     * Ручная установка дто
      */
-    dto: Type<any>
+    dto?: Type<any>
 }

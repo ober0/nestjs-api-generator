@@ -5,10 +5,10 @@ import { createCrudGetAllController } from '../crud-modules/get-all/get-all-cont
 import { applyGetAllDecorators } from '../crud-modules/get-all/get-all-decorators'
 import { applyDecoratorsToController } from '../crud-modules/global/create-decorators'
 import { createCrudGetAllRepository } from '../crud-modules/get-all/get-all-repository'
-import { createCrudCreateController } from '../crud-modules/create/get-all-controller'
-import { applyCreateDecorators } from '../crud-modules/create/get-all-decorators'
-import { createCrudCreateRepository } from '../crud-modules/create/get-all-repository'
-import { createCrudCreateService } from '../crud-modules/create/get-all-service'
+import { createCrudCreateController } from '../crud-modules/create/create-controller'
+import { applyCreateDecorators } from '../crud-modules/create/create-decorators'
+import { createCrudCreateRepository } from '../crud-modules/create/create-repository'
+import { createCrudCreateService } from '../crud-modules/create/create-service'
 
 export class CrudFabric {
     public readonly providers: any[] = []
@@ -86,7 +86,6 @@ export class CrudFabric {
 
 export function createCrud(data: GeneratorMainDto) {
     const crudFabric = new CrudFabric(data)
-
     crudFabric.generateFindOneMethod()
     crudFabric.generateCreateMethod()
 

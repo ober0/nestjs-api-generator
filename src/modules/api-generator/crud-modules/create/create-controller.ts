@@ -11,6 +11,7 @@ export function createCrudCreateController(data: GeneratorMainDto, serviceToken:
         @HttpCode(data.methods.create?.swagger?.statusCode ?? 200)
         @ApiBody({ type: data.methods.create.dto })
         async create(@Body() dto: InstanceType<typeof data.methods.create.dto>) {
+            console.log(data.methods.create.dto)
             return this.service.create(dto)
         }
     }

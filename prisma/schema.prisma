@@ -93,6 +93,7 @@ model LoginHistory {
 }
 
 model Test {
-  id   String @id @default(uuid())
-  data String
+  id        String   @id @default(uuid())
+  data      String
+  createdAt DateTime @default(now()) @map("created_at")
 }

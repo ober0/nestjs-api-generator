@@ -6,8 +6,7 @@ import { PermissionEnum } from '../../common/constants/permission.enum'
 import { Prisma } from '@prisma/client'
 import { OrmEnum } from '../api-generator/enums/orm.enum'
 import { PrismaService } from '../prisma/prisma.service'
-import { TestResponseDto } from './dto/response.dto'
-import { TestCreateDto } from './dto/create.dto'
+import { TestBaseDto } from './dto/base.dto'
 
 @CrudGenerator({
     path: 'test',
@@ -34,15 +33,12 @@ import { TestCreateDto } from './dto/create.dto'
                 apiSecurity: 'bearer'
             },
             guards: [JwtAuthGuard, PermissionGuard],
-            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)],
-            dto: TestCreateDto
+            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
         }
     },
     swagger: {
         apiTag: 'Test'
     },
-    baseDto: {
-        dto: TestResponseDto
-    }
+    baseDto: TestBaseDto
 })
 export class TestCrud {}

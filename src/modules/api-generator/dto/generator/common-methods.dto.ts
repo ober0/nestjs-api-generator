@@ -19,7 +19,7 @@ export class GeneratorCommonMethodDto {
      */
     path?: string
     /**
-     * ручная установка типа ответа
+     * Ручная установка типа ответа
      */
     responseType?: Type<any>
 }

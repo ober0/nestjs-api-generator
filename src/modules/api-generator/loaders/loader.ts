@@ -1,8 +1,0 @@
-import { DynamicModule, Type } from '@nestjs/common'
-import { GeneratorMainDto } from '../dto/generator/main.dto'
-import { createCrud } from '../fubrics/crud-create.fubric'
-
-export function loadCrudModule(target: Type<any>): DynamicModule {
-    const options = Reflect.getMetadata('crud:options', target) as GeneratorMainDto
-    return createCrud(options)
-}

@@ -6,7 +6,7 @@ export function createCrudGetAllService(data: GeneratorMainDto, repoToken: strin
     class CrudGetAllService {
         constructor(@Inject(repoToken) public readonly repository: any) {}
 
-        async getAll() {
+        async getAll(): Promise<InstanceType<typeof data.methods.getAll.responseType>> {
             return this.repository.getAll()
         }
     }

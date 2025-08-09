@@ -7,7 +7,7 @@ export function createCrudGetAllRepository(data: GeneratorMainDto, dbServiceToke
     class CrudGetAllRepository {
         constructor(@Inject(dbServiceToken) readonly dbService: any) {}
 
-        async getAll() {
+        async getAll(): Promise<InstanceType<typeof data.methods.getAll.responseType>> {
             switch (data.db.orm) {
                 case OrmEnum.Prisma:
                     return this.dbService[data.db.model].findMany()

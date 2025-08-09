@@ -7,7 +7,7 @@ export function createCrudCreateRepository(data: GeneratorMainDto, dbServiceToke
     class CrudCreateRepository {
         constructor(@Inject(dbServiceToken) readonly dbService: any) {}
 
-        async create(dto: InstanceType<typeof data.methods.create.dto>) {
+        async create(dto: InstanceType<typeof data.methods.create.dto>): Promise<InstanceType<typeof data.methods.create.responseType>> {
             let result
             switch (data.db.orm) {
                 case OrmEnum.Prisma:

@@ -6,12 +6,12 @@ import { GeneratorMainDto } from '../../dto/generator/main.dto'
 import { GeneratorCreateMethodDto } from '../../dto/generator/create.dto'
 import { GeneratorGetAllMethodDto } from '../../dto/generator/get-all.dto'
 
-type CrudServiceInterface<M extends GeneratorMainDto> = {
+export type ICrudServiceInterface<M extends GeneratorMainDto> = {
     create: M['methods']['create'] extends GeneratorCreateMethodDto ? (dto: M['methods']['create']['dto']) => Promise<M['methods']['create']['responseType']> : never
     getAll: M['methods']['getAll'] extends GeneratorGetAllMethodDto ? () => Promise<M['methods']['getAll']['responseType']> : never
 }
 
-export function createCrudCommonService<M extends GeneratorMainDto>(dto: GeneratorMainDto): Type<CrudServiceInterface<M>> {
+export function createCrudCommonService(dto: GeneratorMainDto): Type<ICrudServiceInterface<typeof dto>> {
     type CreateDto = InstanceType<typeof dto.methods.create.dto>
     type CreateResponseDto = InstanceType<typeof dto.methods.create.responseType>
     type GetAllResponseDto = InstanceType<typeof dto.methods.getAll.responseType>
@@ -41,5 +41,5 @@ export function createCrudCommonService<M extends GeneratorMainDto>(dto: Generat
         }
     }
 
-    return CrudCommonService as Type<CrudServiceInterface<M>>
+    return CrudCommonService as Type<ICrudServiceInterface<typeof dto>>
 }

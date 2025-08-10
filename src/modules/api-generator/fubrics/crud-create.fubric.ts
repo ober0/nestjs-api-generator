@@ -121,8 +121,6 @@ export function createCrud(data: GeneratorMainDto) {
     crudFabric.generateCommonService()
     crudFabric.applyDecorators()
 
-    console.log(crudFabric.providers)
-
     @Module({
         controllers: crudFabric.controllers,
         providers: crudFabric.providers,

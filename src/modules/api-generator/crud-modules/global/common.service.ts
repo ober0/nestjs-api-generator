@@ -1,17 +1,15 @@
-import { Type, Injectable, Inject, Optional } from '@nestjs/common'
+import { Type, Injectable, Inject, Optional, InternalServerErrorException } from '@nestjs/common'
 import { generateModuleToken } from '../../tools/generate-module-token'
 import { CrudFileTypeKeys } from '../../enums/file-types.enum'
 import { MethodsEnum } from '../../enums/methods.enum'
 import { GeneratorMainDto } from '../../dto/generator/main.dto'
-import { GeneratorCreateMethodDto } from '../../dto/generator/create.dto'
-import { GeneratorGetAllMethodDto } from '../../dto/generator/get-all.dto'
 
-export type ICrudServiceInterface<M extends GeneratorMainDto> = {
-    create: M['methods']['create'] extends GeneratorCreateMethodDto ? (dto: M['methods']['create']['dto']) => Promise<M['methods']['create']['responseType']> : never
-    getAll: M['methods']['getAll'] extends GeneratorGetAllMethodDto ? () => Promise<M['methods']['getAll']['responseType']> : never
+export type ICrudCommonServiceType = {
+    create?: (dto: any) => Promise<any>
+    getAll?: () => Promise<any>
 }
 
-export function createCrudCommonService(dto: GeneratorMainDto): Type<ICrudServiceInterface<typeof dto>> {
+export function createCrudCommonService(dto: GeneratorMainDto) {
     type CreateDto = InstanceType<typeof dto.methods.create.dto>
     type CreateResponseDto = InstanceType<typeof dto.methods.create.responseType>
     type GetAllResponseDto = InstanceType<typeof dto.methods.getAll.responseType>
@@ -21,11 +19,11 @@ export function createCrudCommonService(dto: GeneratorMainDto): Type<ICrudServic
         constructor(
             @Optional()
             @Inject(generateModuleToken({ type: CrudFileTypeKeys.Service, method: MethodsEnum.GetAll, key: dto.path }))
-            private readonly getAllService?: any,
+            readonly getAllService?: any,
 
             @Optional()
             @Inject(generateModuleToken({ type: CrudFileTypeKeys.Service, method: MethodsEnum.Create, key: dto.path }))
-            private readonly createService?: any
+            readonly createService?: any
         ) {}
     }
 
@@ -33,13 +31,21 @@ export function createCrudCommonService(dto: GeneratorMainDto): Type<ICrudServic
         ;(CrudCommonService.prototype as any).create = async function (dto: CreateDto): Promise<CreateResponseDto> {
             return this.createService.create(dto)
         }
+    } else {
+        ;(CrudCommonService.prototype as any).create = async function (): Promise<never> {
+            throw new InternalServerErrorException(`Метод create в ${dto.path} не реализован`)
+        }
     }
 
     if (dto.methods.getAll) {
         ;(CrudCommonService.prototype as any).getAll = async function (): Promise<GetAllResponseDto> {
             return this.getAllService.getAll()
         }
+    } else {
+        ;(CrudCommonService.prototype as any).getAll = async function (): Promise<never> {
+            throw new InternalServerErrorException(`Метод getAll в ${dto.path} не реализован`)
+        }
     }
 
-    return CrudCommonService as Type<ICrudServiceInterface<typeof dto>>
+    return CrudCommonService
 }

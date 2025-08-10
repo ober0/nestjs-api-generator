@@ -7,6 +7,7 @@ import { Prisma } from '@prisma/client'
 import { OrmEnum } from '../api-generator/enums/orm.enum'
 import { PrismaService } from '../prisma/prisma.service'
 import { TestBaseDto } from './dto/base.dto'
+import { createCrud } from '../api-generator/fubrics/crud-create.fubric'
 import { loadCrudModule } from '../api-generator/loader/loader-main'
 import { DynamicModule, Module } from '@nestjs/common'
 
@@ -19,14 +20,14 @@ export const TestModuleCfg = {
         pk: 'id'
     },
     methods: {
-        getAll: {
-            swagger: {
-                summary: 'Get all test',
-                apiSecurity: 'bearer'
-            },
-            guards: [JwtAuthGuard, PermissionGuard],
-            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
-        },
+        // getAll: {
+        //     swagger: {
+        //         summary: 'Get all test',
+        //         apiSecurity: 'bearer'
+        //     },
+        //     guards: [JwtAuthGuard, PermissionGuard],
+        //     customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
+        // },
         create: {
             swagger: {
                 summary: 'Create test',

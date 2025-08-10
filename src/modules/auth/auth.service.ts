@@ -11,8 +11,7 @@ import { I18nService } from 'nestjs-i18n'
 import { getCurrentLang } from '../../i18n/utils'
 import { LoginHistoryService } from '../login-history/login-history.service'
 import { LoginHistoryBaseDto } from '../login-history/dto/login-history-base.dto'
-import { TestModuleCfg } from '../test/test.crud'
-import { ICrudServiceInterface } from '../api-generator/crud-modules/global/common.service'
+import { ICrudCommonServiceType } from '../api-generator/crud-modules/global/common.service'
 
 @Injectable()
 export class AuthService {
@@ -28,7 +27,7 @@ export class AuthService {
         private readonly i18n: I18nService,
         private readonly loginHistoryService: LoginHistoryService,
         @Inject('test123')
-        private readonly testService: ICrudServiceInterface<typeof TestModuleCfg>
+        private readonly testService: ICrudCommonServiceType
     ) {}
 
     private generateVerificationCode(): number {
@@ -153,7 +152,7 @@ export class AuthService {
 
     async signIn({ email, password, fingerprint }: SignInUserDto, info: LoginHistoryBaseDto) {
         const ip = info.ip
-        console.log(await this.testService.create({}))
+        console.log(await this.testService.getAll())
         const attemptsKey = await this.checkSignInAttempts(ip)
 
         const user = await this.userService.findOneByEmail(email, true)

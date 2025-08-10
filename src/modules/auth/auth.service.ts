@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { BadRequestException, ConflictException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { PasswordService } from '../password/password.service'
 import { TokenService } from '../token/token.service'
 import { RedisService } from '../redis/redis.service'
@@ -24,7 +24,9 @@ export class AuthService {
         private readonly userRepository: UserRepository,
         private readonly userService: UserService,
         private readonly i18n: I18nService,
-        private readonly loginHistoryService: LoginHistoryService
+        private readonly loginHistoryService: LoginHistoryService,
+        @Inject('test123')
+        private readonly testService: any
     ) {}
 
     private generateVerificationCode(): number {
@@ -149,7 +151,8 @@ export class AuthService {
 
     async signIn({ email, password, fingerprint }: SignInUserDto, info: LoginHistoryBaseDto) {
         const ip = info.ip
-
+        console.log(await this.testService.create({ data: 'tes123t1' }))
+        await this.testService.getAll()
         const attemptsKey = await this.checkSignInAttempts(ip)
 
         const user = await this.userService.findOneByEmail(email, true)

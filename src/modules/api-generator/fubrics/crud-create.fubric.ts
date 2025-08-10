@@ -9,6 +9,10 @@ import { createCrudCreateController } from '../crud-modules/create/create-contro
 import { applyCreateDecorators } from '../crud-modules/create/create-decorators'
 import { createCrudCreateRepository } from '../crud-modules/create/create-repository'
 import { createCrudCreateService } from '../crud-modules/create/create-service'
+import { MethodsEnum } from '../enums/methods.enum'
+import { generateModuleToken } from '../tools/generate-module-token'
+import { CrudFileTypeKeys } from '../enums/file-types.enum'
+import { createCrudCommonService } from '../crud-modules/global/common.service'
 
 export class CrudFabric {
     public readonly providers: any[] = []
@@ -27,9 +31,13 @@ export class CrudFabric {
         })
     }
 
-    generateFindOneMethod() {
+    generateGetAllMethod() {
         if (this.data.methods.getAll) {
-            const repoToken = `CrudGetAllRepo_${this.data.path}`
+            const repoToken = generateModuleToken({
+                type: CrudFileTypeKeys.Repository,
+                key: this.data.path,
+                method: MethodsEnum.GetAll
+            })
 
             const GetAllRepository = createCrudGetAllRepository(this.data, this.dbServiceToken)
             this.providers.push({
@@ -37,7 +45,11 @@ export class CrudFabric {
                 useClass: GetAllRepository
             })
 
-            const serviceToken = `CrudGetAllService_${this.data.path}`
+            const serviceToken = generateModuleToken({
+                type: CrudFileTypeKeys.Service,
+                key: this.data.path,
+                method: MethodsEnum.GetAll
+            })
 
             const GetAllService = createCrudGetAllService(this.data, repoToken)
             this.providers.push({
@@ -48,7 +60,7 @@ export class CrudFabric {
             const GetAllController = createCrudGetAllController(this.data, serviceToken)
             this.controllers.push(GetAllController)
 
-            applyGetAllDecorators(GetAllController, 'getAll', this.data)
+            applyGetAllDecorators(GetAllController, MethodsEnum.GetAll, this.data)
         }
     }
 
@@ -60,7 +72,11 @@ export class CrudFabric {
 
     generateCreateMethod() {
         if (this.data.methods.create) {
-            const repoToken = `CrudCreateRepo_${this.data.path}`
+            const repoToken = generateModuleToken({
+                type: CrudFileTypeKeys.Repository,
+                key: this.data.path,
+                method: MethodsEnum.Create
+            })
 
             const CreateRepository = createCrudCreateRepository(this.data, this.dbServiceToken)
             this.providers.push({
@@ -68,7 +84,11 @@ export class CrudFabric {
                 useClass: CreateRepository
             })
 
-            const serviceToken = `CrudCreateService_${this.data.path}`
+            const serviceToken = generateModuleToken({
+                type: CrudFileTypeKeys.Service,
+                key: this.data.path,
+                method: MethodsEnum.Create
+            })
 
             const CreateService = createCrudCreateService(this.data, repoToken)
             this.providers.push({
@@ -79,17 +99,29 @@ export class CrudFabric {
             const CreateController = createCrudCreateController(this.data, serviceToken)
             this.controllers.push(CreateController)
 
-            applyCreateDecorators(CreateController, 'create', this.data)
+            applyCreateDecorators(CreateController, MethodsEnum.Create, this.data)
         }
+    }
+
+    generateCommonService() {
+        const token = this.data?.injectServiceToken ?? null
+        if (!token) return
+        const CreateService = createCrudCommonService(this.data)
+        this.providers.push({
+            provide: token,
+            useClass: CreateService
+        })
     }
 }
 
 export function createCrud(data: GeneratorMainDto) {
     const crudFabric = new CrudFabric(data)
-    crudFabric.generateFindOneMethod()
+    crudFabric.generateGetAllMethod()
     crudFabric.generateCreateMethod()
-
+    crudFabric.generateCommonService()
     crudFabric.applyDecorators()
+
+    console.log(crudFabric.providers)
 
     @Module({
         controllers: crudFabric.controllers,

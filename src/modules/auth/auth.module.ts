@@ -8,9 +8,10 @@ import { CryptModule } from '../crypt/crypt.module'
 import { PasswordModule } from '../password/password.module'
 import { SmtpModule } from '../smtp/smtp.module'
 import { LoginHistoryModule } from '../login-history/login-history.module'
+import { TestModule } from '../test/test.crud'
 
 @Module({
-    imports: [TokenModule, PasswordModule, CryptModule, RedisModule, SmtpModule, LoginHistoryModule],
+    imports: [TokenModule, PasswordModule, CryptModule, RedisModule, SmtpModule, LoginHistoryModule, TestModule],
     controllers: [AuthController],
     providers: [AuthService],
     exports: [AuthService]

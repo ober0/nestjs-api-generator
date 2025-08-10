@@ -7,6 +7,7 @@ import { SmtpModule } from '../smtp/smtp.module'
 import { RedisModule } from '../redis/redis.module'
 import { CryptModule } from '../crypt/crypt.module'
 import { UserController } from './user.controller'
+import { TestModule } from '../test/test.crud'
 
 @Global()
 @Module({

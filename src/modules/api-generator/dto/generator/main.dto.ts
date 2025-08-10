@@ -51,4 +51,8 @@ export class GeneratorMainDto {
      * Массив декораторов на контроллере (ТД MethodDecorator)
      */
     customDecorators?: AllowedDecorator[]
+    /**
+     * Токен для инжекта сервиса в другие модули
+     */
+    injectServiceToken?: string
 }

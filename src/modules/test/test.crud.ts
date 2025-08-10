@@ -7,6 +7,9 @@ import { Prisma } from '@prisma/client'
 import { OrmEnum } from '../api-generator/enums/orm.enum'
 import { PrismaService } from '../prisma/prisma.service'
 import { TestBaseDto } from './dto/base.dto'
+import { createCrud } from '../api-generator/fubrics/crud-create.fubric'
+import { loadCrudModule } from '../api-generator/loader/loader-main'
+import { DynamicModule, Module } from '@nestjs/common'
 
 @CrudGenerator({
     path: 'test',
@@ -37,6 +40,15 @@ import { TestBaseDto } from './dto/base.dto'
     swagger: {
         apiTag: 'Test'
     },
-    baseDto: TestBaseDto
+    baseDto: TestBaseDto,
+    injectServiceToken: 'test123'
 })
 export class TestCrud {}
+
+export const TestModuleSchema: DynamicModule = loadCrudModule(TestCrud)
+
+@Module({
+    imports: [TestModuleSchema],
+    exports: [TestModuleSchema]
+})
+export class TestModule {}

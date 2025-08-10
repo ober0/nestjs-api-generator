@@ -15,7 +15,7 @@ import { RoleModule } from '../role/role.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { I18nModule, AcceptLanguageResolver } from 'nestjs-i18n'
 import { LoginHistoryModule } from '../login-history/login-history.module'
-import { TestCrud } from '../test/test.crud'
+import { TestCrud, TestModule } from '../test/test.crud'
 import { loadCrudModule } from '../api-generator/loader/loader-main'
 
 @Module({
@@ -43,7 +43,7 @@ import { loadCrudModule } from '../api-generator/loader/loader-main'
             resolvers: [AcceptLanguageResolver]
         }),
         LoginHistoryModule,
-        loadCrudModule(TestCrud)
+        TestModule
     ],
     controllers: [AppController],
     providers: [AppService]

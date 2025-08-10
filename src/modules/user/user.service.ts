@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common'
+import { Injectable, NotFoundException, UnauthorizedException, BadRequestException, Inject } from '@nestjs/common'
 import { createHash, randomBytes } from 'crypto'
 
 import { RedisService } from 'src/modules/redis/redis.service'

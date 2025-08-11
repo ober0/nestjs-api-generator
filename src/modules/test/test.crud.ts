@@ -10,8 +10,10 @@ import { TestBaseDto } from './dto/base.dto'
 import { createCrud } from '../api-generator/fubrics/crud-create.fubric'
 import { loadCrudModule } from '../api-generator/loader/loader-main'
 import { DynamicModule, Module } from '@nestjs/common'
+import { GeneratorMainDto } from '../api-generator/dto/generator/main.dto'
+import { ActiveGuard } from '../auth/guards/active.guard'
 
-export const TestModuleCfg = {
+export const TestModuleCfg: GeneratorMainDto = {
     path: 'test',
     db: {
         dbService: PrismaService,
@@ -22,29 +24,28 @@ export const TestModuleCfg = {
     methods: {
         getAll: {
             swagger: {
-                summary: 'Get all test',
-                apiSecurity: 'bearer'
+                summary: 'Get all test'
             },
-            guards: [JwtAuthGuard, PermissionGuard],
             customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
         },
         create: {
             swagger: {
-                summary: 'Create test',
-                apiSecurity: 'bearer'
+                summary: 'Create test'
             },
-            guards: [JwtAuthGuard, PermissionGuard],
+            guards: [ActiveGuard],
             customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
         }
     },
     swagger: {
-        apiTag: 'Test'
+        apiTag: 'Test',
+        apiSecurity: 'bearer'
     },
     baseDto: TestBaseDto,
     injectServiceToken: 'test123',
     cache: {
         ttl: 3600
-    }
+    },
+    guards: [JwtAuthGuard, PermissionGuard]
 }
 
 @CrudGenerator(TestModuleCfg)

@@ -2,7 +2,7 @@ import { GeneratorGetAllMethodDto } from './get-all.dto'
 import { SwaggerClassDto } from '../swagger/main.dto'
 import { OrmEnum } from '../../enums/orm.enum'
 import { GeneratorCreateMethodDto } from './create.dto'
-import { Type } from '@nestjs/common'
+import { CanActivate, Type } from '@nestjs/common'
 
 export class DbModelsDto {
     /**
@@ -56,8 +56,13 @@ export class GeneratorMainDto {
      */
     injectServiceToken?: string
     /**
+     * Гуарды на каждой ручке
+     */
+    guards?: Type<CanActivate>[]
+    /**
      * Необходимо ли кеширование
      */
+
     cache?: {
         ttl: number
     }

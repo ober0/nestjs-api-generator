@@ -13,6 +13,7 @@ import { MethodsEnum } from '../enums/methods.enum'
 import { generateModuleToken } from '../tools/generate-module-token'
 import { CrudFileTypeKeys } from '../enums/file-types.enum'
 import { createCrudCommonService } from '../crud-modules/global/common.service'
+import { GeneratorRedisModule } from '../cache/redis/redis.module'
 
 export class CrudFabric {
     public readonly providers: any[] = []
@@ -40,6 +41,7 @@ export class CrudFabric {
             })
 
             const GetAllRepository = createCrudGetAllRepository(this.data, this.dbServiceToken)
+
             this.providers.push({
                 provide: repoToken,
                 useClass: GetAllRepository
@@ -122,6 +124,7 @@ export function createCrud(data: GeneratorMainDto) {
     crudFabric.applyDecorators()
 
     @Module({
+        imports: [GeneratorRedisModule],
         controllers: crudFabric.controllers,
         providers: crudFabric.providers,
         exports: crudFabric.providers

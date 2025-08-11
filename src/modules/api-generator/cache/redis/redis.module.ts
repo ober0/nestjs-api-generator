@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common'
 import Redis from 'ioredis'
-import { RedisService } from './redis.service'
+import { GeneratorRedisService } from './redis.service'
 
 @Module({
     providers: [
@@ -14,8 +14,8 @@ import { RedisService } from './redis.service'
                 return new Redis(redisUrl)
             }
         },
-        RedisService
+        GeneratorRedisService
     ],
-    exports: ['REDIS_CLIENT', RedisService]
+    exports: ['REDIS_API_GENERATOR_CLIENT', GeneratorRedisService]
 })
-export class RedisModule {}
+export class GeneratorRedisModule {}

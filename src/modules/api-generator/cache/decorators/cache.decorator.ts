@@ -1,7 +1,6 @@
 import { Logger } from '@nestjs/common'
 import 'reflect-metadata'
-import { RolesEnum } from '../../../role/enum/roles.enum'
-import { RedisService } from '../redis/redis.service'
+import { GeneratorRedisService } from '../redis/redis.service'
 
 export class GeneratorCacheableOptions {
     keyPrefix: string
@@ -11,12 +10,13 @@ export class GeneratorCacheableOptions {
 
 const logger: Logger = new Logger('GeneratorCache')
 
-export function GeneratorCacheable(options: GeneratorCacheableOptions) {
+export function GeneratorCacheable(options: GeneratorCacheableOptions): MethodDecorator {
+    console.log(123)
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value
 
         const wrappedMethod = async function (...args: any[]) {
-            const redisService: RedisService = this.redisService
+            const redisService: GeneratorRedisService = this.redisService
             if (!redisService) throw new Error('Redis service required')
 
             const acceptedArgs = args.filter((item, index) => options.includedIndexes?.includes(index))

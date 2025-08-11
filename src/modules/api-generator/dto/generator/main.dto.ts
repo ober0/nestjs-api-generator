@@ -55,4 +55,10 @@ export class GeneratorMainDto {
      * Токен для инжекта сервиса в другие модули
      */
     injectServiceToken?: string
+    /**
+     * Необходимо ли кеширование
+     */
+    cache?: {
+        ttl: number
+    }
 }

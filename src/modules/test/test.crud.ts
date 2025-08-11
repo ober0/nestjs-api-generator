@@ -20,14 +20,14 @@ export const TestModuleCfg = {
         pk: 'id'
     },
     methods: {
-        // getAll: {
-        //     swagger: {
-        //         summary: 'Get all test',
-        //         apiSecurity: 'bearer'
-        //     },
-        //     guards: [JwtAuthGuard, PermissionGuard],
-        //     customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
-        // },
+        getAll: {
+            swagger: {
+                summary: 'Get all test',
+                apiSecurity: 'bearer'
+            },
+            guards: [JwtAuthGuard, PermissionGuard],
+            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
+        },
         create: {
             swagger: {
                 summary: 'Create test',
@@ -41,7 +41,10 @@ export const TestModuleCfg = {
         apiTag: 'Test'
     },
     baseDto: TestBaseDto,
-    injectServiceToken: 'test123'
+    injectServiceToken: 'test123',
+    cache: {
+        ttl: 3600
+    }
 }
 
 @CrudGenerator(TestModuleCfg)

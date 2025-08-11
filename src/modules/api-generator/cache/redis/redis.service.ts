@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common'
 import * as Redis from 'ioredis'
 
 @Injectable()
-export class RedisService {
+export class GeneratorRedisService {
     private readonly logger = new Logger('RedisService')
 
     constructor(@Inject('REDIS_API_GENERATOR_CLIENT') private readonly redisClient: Redis.Redis) {}

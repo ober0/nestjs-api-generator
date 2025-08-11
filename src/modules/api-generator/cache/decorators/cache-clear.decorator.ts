@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common'
 import 'reflect-metadata'
-import { RedisService } from '../redis/redis.service'
+import { GeneratorRedisService } from '../redis/redis.service'
 
 export class GeneratorClearCacheOptions {
     keyPrefix: string | string[]
@@ -8,7 +8,7 @@ export class GeneratorClearCacheOptions {
 
 const logger: Logger = new Logger('GeneratorClearCache')
 
-async function GeneratorDeleteCache(redisService: RedisService, prefix: string) {
+async function GeneratorDeleteCache(redisService: GeneratorRedisService, prefix: string) {
     const cacheKey: string = `${prefix}:*`
 
     const cachedKeys: string[] = await redisService.scanKeysByPrefix(cacheKey)
@@ -18,12 +18,12 @@ async function GeneratorDeleteCache(redisService: RedisService, prefix: string) 
     }
 }
 
-export function GeneratorClearCache(options: GeneratorClearCacheOptions) {
+export function GeneratorClearCache(options: GeneratorClearCacheOptions): MethodDecorator {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value
 
         const wrappedMethod = async function (...args: any[]) {
-            const redisService: RedisService = this.redisService
+            const redisService: GeneratorRedisService = this.redisService
 
             const prefixes = Array.isArray(options.keyPrefix) ? options.keyPrefix : [options.keyPrefix]
 

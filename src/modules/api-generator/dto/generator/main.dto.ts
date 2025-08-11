@@ -62,8 +62,11 @@ export class GeneratorMainDto {
     /**
      * Необходимо ли кеширование
      */
-
     cache?: {
         ttl: number
     }
+    /**
+     * true чтобы отключить логирование
+     */
+    disableLogger?: true
 }

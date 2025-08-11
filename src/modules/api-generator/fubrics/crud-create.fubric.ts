@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common'
 import { GeneratorMainDto } from '../dto/generator/main.dto'
 import { createCrudGetAllService } from '../crud-modules/get-all/get-all-service'
 import { createCrudGetAllController } from '../crud-modules/get-all/get-all-controller'
@@ -14,6 +14,7 @@ import { generateModuleToken } from '../tools/generate-module-token'
 import { CrudFileTypeKeys } from '../enums/file-types.enum'
 import { createCrudCommonService } from '../crud-modules/global/common.service'
 import { GeneratorRedisModule } from '../cache/redis/redis.module'
+import { GeneratorLoggerMiddleware } from '../tools/logger.middleware'
 
 export class CrudFabric {
     public readonly providers: any[] = []
@@ -129,7 +130,13 @@ export function createCrud(data: GeneratorMainDto) {
         providers: crudFabric.providers,
         exports: crudFabric.providers
     })
-    class GeneratedModule {}
+    class GeneratedModule {
+        configure(consumer: MiddlewareConsumer) {
+            if (!data.disableLogger) {
+                consumer.apply(GeneratorLoggerMiddleware).forRoutes({ path: `/${data.path}`, method: RequestMethod.ALL })
+            }
+        }
+    }
 
     return {
         module: GeneratedModule,

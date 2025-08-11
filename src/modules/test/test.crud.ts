@@ -42,9 +42,7 @@ export const TestModuleCfg: GeneratorMainDto = {
     },
     baseDto: TestBaseDto,
     injectServiceToken: 'test123',
-    cache: {
-        ttl: 3600
-    },
+    cache: true,
     guards: [JwtAuthGuard, PermissionGuard]
 }
 

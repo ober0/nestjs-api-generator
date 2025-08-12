@@ -3,6 +3,7 @@ import { SwaggerClassDto } from '../swagger/main.dto'
 import { OrmEnum } from '../../enums/orm.enum'
 import { GeneratorCreateMethodDto } from './create.dto'
 import { CanActivate, Type } from '@nestjs/common'
+import { GeneratorGetByPkMethodDto } from './get-by-pk.dto'
 
 export class DbModelsDto {
     /**
@@ -30,6 +31,7 @@ export class GeneratorMainDto {
     methods: {
         getAll?: GeneratorGetAllMethodDto
         create?: GeneratorCreateMethodDto
+        getByPk?: GeneratorGetByPkMethodDto
     }
     /**
      * Глобальные настройки сваггера

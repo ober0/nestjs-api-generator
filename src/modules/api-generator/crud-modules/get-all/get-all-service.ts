@@ -17,9 +17,10 @@ export function createCrudGetAllService(data: GeneratorMainDto, repoToken: strin
     }
 
     if (data.cache) {
+        const ttl = typeof data.cache === 'object' ? data.cache.ttl : 3600
         const decorator = GeneratorCacheable({
             keyPrefix: `generator/cache/get-all/${data.path}/${data.methods.getAll.path}`,
-            ttl: data.cache.ttl ?? 3600
+            ttl
         })
 
         const descriptor = Object.getOwnPropertyDescriptor(CrudGetAllService.prototype, 'getAll')!

@@ -7,12 +7,14 @@ import { GeneratorMainDto } from '../../dto/generator/main.dto'
 export type ICrudCommonServiceType = {
     create?: (dto: any) => Promise<any>
     getAll?: () => Promise<any>
+    getByPk?: (pk: any) => Promise<any>
 }
 
 export function createCrudCommonService(dto: GeneratorMainDto) {
     type CreateDto = InstanceType<typeof dto.methods.create.dto>
     type CreateResponseDto = InstanceType<typeof dto.methods.create.responseType>
     type GetAllResponseDto = InstanceType<typeof dto.methods.getAll.responseType>
+    type GetByPkResponseDto = InstanceType<typeof dto.methods.getByPk.responseType>
 
     @Injectable()
     class CrudCommonService {
@@ -23,7 +25,11 @@ export function createCrudCommonService(dto: GeneratorMainDto) {
 
             @Optional()
             @Inject(generateModuleToken({ type: CrudFileTypeKeys.Service, method: MethodsEnum.Create, key: dto.path }))
-            readonly createService?: any
+            readonly createService?: any,
+
+            @Optional()
+            @Inject(generateModuleToken({ type: CrudFileTypeKeys.Service, method: MethodsEnum.GetByPk, key: dto.path }))
+            readonly getByPkService?: any
         ) {}
     }
 
@@ -44,6 +50,16 @@ export function createCrudCommonService(dto: GeneratorMainDto) {
     } else {
         ;(CrudCommonService.prototype as any).getAll = async function (): Promise<never> {
             throw new InternalServerErrorException(`Метод getAll в ${dto.path} не реализован`)
+        }
+    }
+
+    if (dto.methods.getByPk) {
+        ;(CrudCommonService.prototype as any).getByPk = async function (pk: any): Promise<GetByPkResponseDto> {
+            return this.getByPk.getByPk(pk)
+        }
+    } else {
+        ;(CrudCommonService.prototype as any).getByPk = async function (): Promise<never> {
+            throw new InternalServerErrorException(`Метод getByPk в ${dto.path} не реализован`)
         }
     }
 

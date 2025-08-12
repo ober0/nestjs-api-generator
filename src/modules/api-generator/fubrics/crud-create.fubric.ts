@@ -15,6 +15,10 @@ import { CrudFileTypeKeys } from '../enums/file-types.enum'
 import { createCrudCommonService } from '../crud-modules/global/common.service'
 import { GeneratorRedisModule } from '../cache/redis/redis.module'
 import { GeneratorLoggerMiddleware } from '../tools/logger.middleware'
+import { createCrudGetByPkRepository } from '../crud-modules/get-by-pk/get-by-pk-repository'
+import { createCrudGetByPkService } from '../crud-modules/get-by-pk/get-by-pk-service'
+import { applyGetByPkDecorators } from '../crud-modules/get-by-pk/get-by-pk-decorators'
+import { createCrudGetByPkController } from '../crud-modules/get-by-pk/get-by-pk-controller'
 
 export class CrudFabric {
     public readonly providers: any[] = []
@@ -64,6 +68,40 @@ export class CrudFabric {
             this.controllers.push(GetAllController)
 
             applyGetAllDecorators(GetAllController, MethodsEnum.GetAll, this.data)
+        }
+    }
+
+    generateGetByPkMethod() {
+        if (this.data.methods.getByPk) {
+            const repoToken = generateModuleToken({
+                type: CrudFileTypeKeys.Repository,
+                key: this.data.path,
+                method: MethodsEnum.GetByPk
+            })
+
+            const GetByPkRepository = createCrudGetByPkRepository(this.data, this.dbServiceToken)
+
+            this.providers.push({
+                provide: repoToken,
+                useClass: GetByPkRepository
+            })
+
+            const serviceToken = generateModuleToken({
+                type: CrudFileTypeKeys.Service,
+                key: this.data.path,
+                method: MethodsEnum.GetByPk
+            })
+
+            const GetByPkService = createCrudGetByPkService(this.data, repoToken)
+            this.providers.push({
+                provide: serviceToken,
+                useClass: GetByPkService
+            })
+
+            const GetByPkController = createCrudGetByPkController(this.data, serviceToken)
+            this.controllers.push(GetByPkController)
+
+            applyGetByPkDecorators(GetByPkController, MethodsEnum.GetByPk, this.data)
         }
     }
 
@@ -119,9 +157,13 @@ export class CrudFabric {
 
 export function createCrud(data: GeneratorMainDto) {
     const crudFabric = new CrudFabric(data)
+
     crudFabric.generateGetAllMethod()
     crudFabric.generateCreateMethod()
+    crudFabric.generateGetByPkMethod()
+
     crudFabric.generateCommonService()
+
     crudFabric.applyDecorators()
 
     @Module({

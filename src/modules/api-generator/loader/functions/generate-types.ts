@@ -8,6 +8,7 @@ export function generateDtoTypes(options: GeneratorMainDto, method: MethodsEnum,
     if (!options.baseDto) throw new Error(`Не указан BaseDto для генерации типов в ${target.name} ( функция ${method} )`)
     switch (method) {
         case MethodsEnum.GetAll:
+        case MethodsEnum.GetByPk:
             return false
         case MethodsEnum.Create:
             const excludedFields: string[] = []
@@ -30,6 +31,7 @@ export function generateResponseTypes(options: GeneratorMainDto, method: Methods
     switch (method) {
         case MethodsEnum.GetAll:
         case MethodsEnum.Create:
+        case MethodsEnum.GetByPk:
             return options.baseDto
         default:
             throw new Error(`Указан несуществующий тип метода: ${method}`)

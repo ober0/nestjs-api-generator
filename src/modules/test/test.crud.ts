@@ -34,6 +34,13 @@ export const TestModuleCfg: GeneratorMainDto = {
             },
             guards: [ActiveGuard],
             customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
+        },
+        getByPk: {
+            swagger: {
+                summary: 'Get by Pk'
+            },
+            guards: [ActiveGuard],
+            customDecorators: [HasPermissions(PermissionEnum.PermissionGetAll)]
         }
     },
     swagger: {

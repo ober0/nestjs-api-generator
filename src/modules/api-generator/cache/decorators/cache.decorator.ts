@@ -11,7 +11,6 @@ export class GeneratorCacheableOptions {
 const logger: Logger = new Logger('GeneratorCache')
 
 export function GeneratorCacheable(options: GeneratorCacheableOptions): MethodDecorator {
-    console.log(123)
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value
 

@@ -4,6 +4,7 @@ import { createCrud } from '../fubrics/crud-create.fubric'
 import { CrudGeneratorMetadataEnum } from '../enums/metadata.enum'
 import { MethodsEnum } from '../enums/methods.enum'
 import { generateDtoTypes, generateResponseTypes } from './functions/generate-types'
+import { checkHttpPathErrors } from './functions/check-http-methods'
 
 export function loadCrudModule(target: Type<any>): DynamicModule {
     let options: GeneratorMainDto = Reflect.getMetadata(CrudGeneratorMetadataEnum.Options, target) as GeneratorMainDto
@@ -13,6 +14,8 @@ export function loadCrudModule(target: Type<any>): DynamicModule {
     } catch {
         throw new Error('В проекте не установлен @nestjs/swagger')
     }
+
+    checkHttpPathErrors(options, target)
 
     Object.keys(options.methods).forEach((method: MethodsEnum) => {
         if (!Object.keys(options.methods[method]).includes('dto')) {
